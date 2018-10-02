@@ -1,28 +1,77 @@
 .App {
-  text-align: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.options-panel {
+    position: relative;
+    width: 400px;
+    height: 100vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.panel-header {
+    position: relative;
+    padding-left: 20px;
 }
 
-.App-title {
-  font-size: 1.5em;
+.panel-header>h1 {
+    margin-bottom: 0;
 }
 
-.App-intro {
-  font-size: large;
+.panel-header {
+    position: relative;
+    background-color: white;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.panel-body {
+    position: relative;
+    padding-left: 20px;
+    background-color: white;
+}
+
+.listings {
+    text-align: left;
+    list-style: none;
+}
+
+.listings>li {
+    position: relative;
+    left: -40px;
+    padding: 15px 0;
+    cursor: pointer;
+    border-bottom: 1px solid lightgray;
+}
+
+.search-panel>input {
+    line-height: 1.6;
+    width: 225px;
+    border-radius: 6px;
+    border: 1px solid grey;
+    outline: none;
+    text-indent: 5px;
+}
+
+.search-panel>p {
+    font-style: italic;
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.map {
+    height: 100%;
+    width: 100%;
+}
+
+.close-btn {
+    display: none;
+}
+
+.open-btn {
+    display: none;
 }
