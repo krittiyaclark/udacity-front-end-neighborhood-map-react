@@ -1,3 +1,10 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
 .App {
     height: 100%;
     width: 100%;
@@ -75,3 +82,9 @@
 .open-btn {
     display: none;
 }
+
+@media only screen and (max-width: 800px) {
+    .App {
+        display: block;
+    }
+  }
