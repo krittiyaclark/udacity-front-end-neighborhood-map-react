@@ -17,4 +17,5 @@ const MainContainer = () => {
         </section>
     );
 };
+
 export default MainContainer;

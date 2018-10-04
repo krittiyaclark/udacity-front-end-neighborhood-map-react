@@ -1,48 +1,24 @@
-import React, { Component } from "react";
-import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
+import React from 'react';
+import { compose, withProps } from 'recompose';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 
-const GoogleMapCall = withScriptjs(
-    withGoogleMap(props => (
-        <GoogleMap
-            defaultZoom={18}
-            defaultCenter={{ lat: 36.372659, lng: -94.208742 }}
-        >
-            {props.children}
-        </GoogleMap>
-    ))
-);
+const GoogleMapDisplay = compose(
+    withProps({
+googleMapURL : "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,place" +
+    "s&key=AIzaSyCpWg0wtatuKxKQ86H2T2W5rtwc_S51XYE",
+        loadingElement: <div style={{ height: '100vh', width: '100%' }} />,
+        containerElement: <div style={{ height: '100vh', width: '100%' }} />,
+        mapElement: <div style={{ height: '100vh', width: '100%' }} />
+    }),
+    withScriptjs,
+    withGoogleMap
+)((props) => {
+    return <GoogleMap
+        defaultZoom={18}
+        defaultCenter={{ lat: 52.370216, lng: 4.895168 }}
+    >
+        {props.isMarkerShown && <Marker position={{ lat: 52.370216, lng: 4.895168 }} />}
+    </GoogleMap>
+})
 
-class GoogleMapDisplay extends Component {
-    state = {
-        hasError: false
-    };
-
-    componentDidCatch(error, info) {
-        this.setState({
-            hasError: true
-        });
-    }
-
-    render() {
-        if (this.state.hasError) {
-            return (
-                <div>
-                    <h1>Something went wrong.</h1>
-                    <h2>You might be offline or the service is down.</h2>
-                    <h3>Check your internet connection and try again.</h3>
-                </div>
-            );
-        }
-        return (
-            <GoogleMapCall
-                googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDWDwhwYWGaZlcFkEIpaLuVY6VjjRNph60"
-                loadingElement={<div style={{ height: "100vh", width: "100%" }} />}
-                containerElement={<div style={{ height: "100vh", width: "100%" }} />}
-                mapElement={<div style={{ height: "100vh", width: "100%" }} />}
-            >
-                {this.props.children}
-            </GoogleMapCall>
-        );
-    }
-}
-
+export default GoogleMapDisplay;

@@ -54,7 +54,7 @@ body {
     border-bottom: 1px solid lightgray;
 }
 
-.search-panel>input {
+.search-panel > input {
     line-height: 1.6;
     width: 225px;
     border-radius: 6px;
@@ -63,7 +63,7 @@ body {
     text-indent: 5px;
 }
 
-.search-panel>p {
+.search-panel > p {
     font-style: italic;
     font-size: 0.8rem;
     margin: 0;
@@ -84,7 +84,60 @@ body {
 }
 
 @media only screen and (max-width: 800px) {
-    .App {
+    .container {
         display: block;
     }
-  }
+
+    .options-panel {
+        position: absolute;
+        left: 0;
+        margin: 0;
+        width: 100vw;
+    }
+
+    .panel-header {
+        z-index: 100;
+    }
+
+    .panel-body {
+        z-index: 100;
+    }
+
+    .map.panel-open {
+        position: absolute;
+        left: 0;
+        z-index: 1;
+    }
+
+    .close-btn {
+        position: absolute;
+        display: unset;
+        top: 20px;
+        right: 20px;
+        margin: 0;
+        padding: 0 5px;
+        border: 1px solid black;
+    }
+
+    .open-btn {
+        position: absolute;
+        display: unset;
+        top: 20px;
+        right: 20px;
+        margin: 0;
+        padding: 0 5px;
+        border: 1px solid black;
+    }
+
+    .hide-btn {
+        display: none;
+    }
+
+    .panel-body {
+        display: none;
+    }
+    
+    .panel-body.show-panel-body {
+        display: block;
+    }
+}
