@@ -4,7 +4,7 @@ import Search from "./Search";
 import Listings from "./Listings";
 
 // Panel Main Container - Wrapper for left side of app
-const MainContainer = () => {
+const MainContainer = ({ venues, toggleMarker }) => {
     return (
         <section className="options-panel">
             <section className="panel-header">
@@ -12,7 +12,7 @@ const MainContainer = () => {
             </section>
             <section className="panel-body">
                 <Search />
-                <Listings />
+                <Listings venues={venues} toggleMarker={toggleMarker} />
             </section>
         </section>
     );

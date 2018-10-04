@@ -17,7 +17,7 @@ googleMapURL : "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geomet
         defaultZoom={18}
         defaultCenter={{ lat: 52.370216, lng: 4.895168 }}
     >
-        {props.isMarkerShown && <Marker position={{ lat: 52.370216, lng: 4.895168 }} />}
+        {props.children} />}
     </GoogleMap>
 })
 

@@ -1,11 +1,13 @@
 import React from "react";
 
-const Listings = () => {
+const Listings = ({ venues, toggleMarker }) => {
     return (
         <ul className="listings">
-            <li>One</li>
-            <li>Two</li>
-            <li>Three</li>
+            {
+                venues.map(venue => {
+                    return <li key={venue.id} className="listings__item" onClick={() => toggleMarker(venue)} >{venue.name}</li>
+                })
+            }
         </ul>
     );
 };
