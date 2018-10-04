@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Marker } from "react-google-maps";
+import { Marker, InfoWindow, } from "react-google-maps";
 import "./App.css";
 import GoogleMapDisplay from "./components/GoogleMap";
 import Panel from "./components/Panel/MainContainer";
@@ -12,18 +12,13 @@ class App extends Component {
     },
     venues: [],
     targetedVenue: {},
-    isMarkerShown: false
+    isMarkerShown: false,
+    isInfoWindowOpen: false,
+    isBouncing: false
   };
   
    componentDidMount() {
     this.fetchListings();
-  }
-
-   toggleMarker = (venue) => {
-    this.setState({
-      targetedVenue: venue,
-      isMarkerShown: true
-    })
   }
   
    fetchListings = async () => {
@@ -37,29 +32,67 @@ class App extends Component {
     let venues = [];
      
     await fetch(
-      `${fsAPI}?ll=${this.state.centerPosition.lat},${this.state.centerPosition.lng}
+      `${fsAPI}?ll=${this.state.centerPosition.lat},${
+        this.state.centerPosition.lng
+      }
       &client_id=${clientId}&client_secret=${clientSecret}
       &v=${version}&limit=${limit}&browse&categoryId=${categoryId}
       &radius=${radius}`
     ).then(
       function(res) {
-      return res.json();
-    }).then(function(res) {
-      venues = res.response.venues;
-    });
+        return res.json();
+      }).then(function(res) {
+        venues = res.response.venues;
+      });
     
      await this.setState({
       venues: venues
     });
   };
+
+  toggleInfoWindow = venue => {
+    if (venue === this.state.targetedVenue) {
+      this.setState({
+        targetedVenue: venue,
+        isInfoWindowOpen: !this.state.isInfoWindowOpen,
+        isBouncing: !this.state.isBouncing
+      });
+    } else {
+      this.setState({
+        targetedVenue: venue
+      })
+    }
+  };
+  displayMarkers = () => {
+    const venues = Object.assign({}, this.state.venues);
+    let markerList = [];
+    if (!!venues) {
+      Object.values(venues).map(venue => {
+        return markerList.push(
+          <Marker
+            key={venue.id}
+            position={{ lat: venue.location.lat, lng: venue.location.lng }}
+            onClick={() => this.toggleInfoWindow(venue)}
+            animation={this.state.isBouncing && (this.state.targetedVenue.id === venue.id) ? 1 : 0}
+          >
+            {this.state.targetedVenue.id === venue.id &&
+              (this.state.isInfoWindowOpen && (
+                <InfoWindow onCloseClick={() => this.toggleInfoWindow(venue)}>
+                  <div>{venue.name}</div>
+                </InfoWindow>
+              ))}
+          </Marker>
+        );
+      });
+      return markerList;
+    }
+  };
   
   render() {
     return (
       <div className="App">
-        <Panel venues={this.state.venues} toggleMarker={this.toggleMarker} />
-        <GoogleMapDisplay isMarkerShown>
-          {this.state.isMarkerShown && <Marker position={{ lat: this.state.targetedVenue.location.lat, lng: this.state.targetedVenue.location.lng }} />}
-        </GoogleMapDisplay>
+        <Panel venues={this.state.venues} toggleInfoWindow={this.toggleInfoWindow} />
+        <GoogleMapDisplay>{this.displayMarkers()}</GoogleMapDisplay>
       </div>
     );
   }
