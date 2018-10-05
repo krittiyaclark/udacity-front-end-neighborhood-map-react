@@ -14,7 +14,8 @@ class App extends Component {
     targetedVenue: {},
     isMarkerShown: false,
     isInfoWindowOpen: false,
-    isBouncing: false
+    isBouncing: false,
+    searchTerm: ""
   };
   
    componentDidMount() {
@@ -43,13 +44,22 @@ class App extends Component {
         return res.json();
       }).then(function(res) {
         venues = res.response.venues;
+      })
+      .catch(function(err){
+        alert(`Cannot fetch data. Error: ${err}`)
       });
-    
+
      await this.setState({
       venues: venues
     });
   };
 
+  setSearchTerm = (term) => {
+    this.setState({
+      searchTerm: term
+    })
+  }
+  
   toggleInfoWindow = venue => {
     if (venue === this.state.targetedVenue) {
       this.setState({
@@ -63,11 +73,12 @@ class App extends Component {
       })
     }
   };
+
   displayMarkers = () => {
     const venues = Object.assign({}, this.state.venues);
     let markerList = [];
     if (!!venues) {
-      Object.values(venues).map(venue => {
+      Object.values(venues).filter(venue => venue.name.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) >= 0).map(venue => {
         return markerList.push(
           <Marker
             key={venue.id}
@@ -91,7 +102,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Panel venues={this.state.venues} toggleInfoWindow={this.toggleInfoWindow} />
+        <Panel venues={this.state.venues} toggleInfoWindow={this.toggleInfoWindow} searchTerm={this.state.searchTerm} setSearchTerm={this.setSearchTerm} />
         <GoogleMapDisplay>{this.displayMarkers()}</GoogleMapDisplay>
       </div>
     );
