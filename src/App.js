@@ -17,49 +17,53 @@ class App extends Component {
     isBouncing: false,
     searchTerm: ""
   };
+   
+    // Fetch listings DidMount
+    componentDidMount() {
+      this.fetchListings();
+    }
   
-   componentDidMount() {
-    this.fetchListings();
-  }
-  
-   fetchListings = async () => {
-    const fsAPI = "https://api.foursquare.com/v2/venues/search";
-    const clientId = "A44YC34354YRGZIKO2RHCTOAGHVHSZYLOMCCAWHNZPC3QF0Y";
-    const clientSecret = "CKFJAYYHQUXL3TEYRVJKND1Q4G3PLIUSV3TWGPLQGG4OS3WH";
-    const version = "20180615";
-    const limit = "20";
-    const categoryId = "4d4b7105d754a06374d81259";
-    const radius = "300";
-    let venues = [];
-     
-    await fetch(
-      `${fsAPI}?ll=${this.state.centerPosition.lat},${
-        this.state.centerPosition.lng
-      }
-      &client_id=${clientId}&client_secret=${clientSecret}
-      &v=${version}&limit=${limit}&browse&categoryId=${categoryId}
-      &radius=${radius}`
-    ).then(
-      function(res) {
-        return res.json();
-      }).then(function(res) {
-        venues = res.response.venues;
-      })
-      .catch(function(err) {
-        alert(`Cannot fetch data. Error: ${err}`)
-      });
+    fetchListings = async () => {
+      const fsAPI = "https://api.foursquare.com/v2/venues/search";
+      const clientId = "A44YC34354YRGZIKO2RHCTOAGHVHSZYLOMCCAWHNZPC3QF0Y";
+      const clientSecret = "CKFJAYYHQUXL3TEYRVJKND1Q4G3PLIUSV3TWGPLQGG4OS3WH";
+      const version = "20180615";
+      const limit = "20";
+      const categoryId = "4d4b7105d754a06374d81259";
+      const radius = "300";
+      let venues = [];
+      
+      await fetch(
+        `${fsAPI}?ll=${this.state.centerPosition.lat},${
+          this.state.centerPosition.lng
+        }
+        &client_id=${clientId}&client_secret=${clientSecret}
+        &v=${version}&limit=${limit}&browse&categoryId=${categoryId}
+        &radius=${radius}`
+      ).then(
+        function(res) {
+          return res.json();
+        }).then(function(res) {
+          venues = res.response.venues;
+        })
+        .catch(function(err) {
+          alert(`Cannot fetch data. Error: ${err}`)
+        });
 
-     await this.setState({
-      venues: venues
-    });
+      // Upon return of the venues, set the object in state
+      await this.setState({
+        venues: venues
+      });
   };
 
+  // Set the search term in state
   setSearchTerm = term => {
     this.setState({
       searchTerm: term
     })
   }
   
+  // Toggle the InfoWindow open and make it bounce
   toggleInfoWindow = venue => {
     if (venue === this.state.targetedVenue) {
       this.setState({
@@ -74,10 +78,13 @@ class App extends Component {
     }
   };
 
+  // Display the Markers on the map
   displayMarkers = () => {
+    // Copy the venues object
     const venues = Object.assign({}, this.state.venues);
     let markerList = [];
     if (!!venues) {
+      // Filter the venues based on the search term
       Object.values(venues)
         .filter(
           venue =>
@@ -85,6 +92,7 @@ class App extends Component {
               .toLowerCase()
               .indexOf(this.state.searchTerm.toLowerCase()) >= 0
         )
+        // Create a marker for each venue in the venue list
         .map(venue => {
           return markerList.push(
             <Marker

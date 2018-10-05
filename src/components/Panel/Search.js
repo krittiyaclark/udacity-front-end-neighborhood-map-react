@@ -1,6 +1,9 @@
 import React from "react";
 
+// Search feature - Searches only venue names
 const Search = ({ setSearchTerm }) => {
+
+    // OnChange set the search term in the App.js state
     function onChangeHandler(e) {
         setSearchTerm(e.target.value)
     }

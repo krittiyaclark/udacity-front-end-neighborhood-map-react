@@ -2,6 +2,7 @@ import React from "react";
 import { compose, withProps } from "recompose";
 import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
 
+// Connects to the Google Maps API
 const GoogleMapDisplay = compose(
     withProps({
         googleMapURL : 

@@ -9,6 +9,7 @@ class MainContainer extends Component {
         isOpen: false
     };
     
+    // Toggle the Navigatiomn Menu on mobile
     toggleMenu = () => {
         this.setState({
             isOpen: !this.state.isOpen

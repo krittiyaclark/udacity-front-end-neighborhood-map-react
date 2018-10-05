@@ -1,5 +1,6 @@
 import React from "react";
 
+// Navigation Header
 const Header = ({ toggleMenu, isOpen }) => {
     return (
         <React.Fragment>
