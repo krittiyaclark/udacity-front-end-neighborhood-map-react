@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Marker, InfoWindow, } from "react-google-maps";
+import { Marker, InfoWindow } from "react-google-maps";
 import "./App.css";
 import GoogleMapDisplay from "./components/GoogleMap";
 import Panel from "./components/Panel/MainContainer";
@@ -45,7 +45,7 @@ class App extends Component {
       }).then(function(res) {
         venues = res.response.venues;
       })
-      .catch(function(err){
+      .catch(function(err) {
         alert(`Cannot fetch data. Error: ${err}`)
       });
 
@@ -54,7 +54,7 @@ class App extends Component {
     });
   };
 
-  setSearchTerm = (term) => {
+  setSearchTerm = term => {
     this.setState({
       searchTerm: term
     })
@@ -70,7 +70,7 @@ class App extends Component {
     } else {
       this.setState({
         targetedVenue: venue
-      })
+      });
     }
   };
 
@@ -78,23 +78,38 @@ class App extends Component {
     const venues = Object.assign({}, this.state.venues);
     let markerList = [];
     if (!!venues) {
-      Object.values(venues).filter(venue => venue.name.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) >= 0).map(venue => {
-        return markerList.push(
-          <Marker
-            key={venue.id}
-            position={{ lat: venue.location.lat, lng: venue.location.lng }}
-            onClick={() => this.toggleInfoWindow(venue)}
-            animation={this.state.isBouncing && (this.state.targetedVenue.id === venue.id) ? 1 : 0}
-          >
-            {this.state.targetedVenue.id === venue.id &&
-              (this.state.isInfoWindowOpen && (
-                <InfoWindow onCloseClick={() => this.toggleInfoWindow(venue)}>
-                  <div>{venue.name}</div>
-                </InfoWindow>
-              ))}
-          </Marker>
-        );
-      });
+      Object.values(venues)
+        .filter(
+          venue =>
+            venue.name
+              .toLowerCase()
+              .indexOf(this.state.searchTerm.toLowerCase()) >= 0
+        )
+        .map(venue => {
+          return markerList.push(
+            <Marker
+              key={venue.id}
+              position={{ lat: venue.location.lat, lng: venue.location.lng }}
+              onClick={() => this.toggleInfoWindow(venue)}
+              animation={
+                this.state.isBouncing &&
+                  this.state.targetedVenue.id === venue.id
+                  ? 1
+                  : 0
+              }
+            >
+              {this.state.targetedVenue.id === venue.id &&
+                (this.state.isInfoWindowOpen && (
+                  <InfoWindow onCloseClick={() => this.toggleInfoWindow(venue)}>
+                    <React.Fragment>
+                      <h3>{venue.name}</h3>
+                      <p>Type: {venue.categories[0].shortName}</p>
+                    </React.Fragment>
+                  </InfoWindow>
+                ))}
+            </Marker>
+          );
+        });
       return markerList;
     }
   };
@@ -102,7 +117,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Panel venues={this.state.venues} toggleInfoWindow={this.toggleInfoWindow} searchTerm={this.state.searchTerm} setSearchTerm={this.setSearchTerm} />
+        <Panel 
+          venues={this.state.venues} 
+          toggleInfoWindow={this.toggleInfoWindow} 
+          searchTerm={this.state.searchTerm} setSearchTerm={this.setSearchTerm} 
+        />
         <GoogleMapDisplay>{this.displayMarkers()}</GoogleMapDisplay>
       </div>
     );
