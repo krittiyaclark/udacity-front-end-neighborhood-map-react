@@ -24,7 +24,7 @@ const Listings = ({ venues, toggleInfoWindow, searchTerm }) => {
                             <li
                                 key={venue.id}
                                 tabIndex={0}
-                                role="listitem"
+                                role="button"
                                 className="listings__item"
                                 onClick={() => toggleInfoWindow(venue)}
                             >

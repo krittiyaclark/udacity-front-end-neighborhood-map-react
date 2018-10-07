@@ -10,7 +10,7 @@ const Search = ({ setSearchTerm }) => {
 
     return (
         <section className="search-panel">
-            <input type="text" onChange={e => onChangeHandler(e)} />
+            <input type="text" onChange={e => onChangeHandler(e)} aria-labelledby="listingfilter"/>
             <p>Listings provided by FourSquare API</p>
         </section>    
     );
