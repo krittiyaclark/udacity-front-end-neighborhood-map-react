@@ -17,10 +17,21 @@ class GoogleMapDisplay extends Component {
         hasError: false
     };
 
+    // The error message is shown if Foursquare API fails to load data
+    // define a global function
+    gm_authFailure() {
+        window.alert("Google Maps error!")
+    }
+
     componentDidCatch(error, info) {
         this.setState({
             hasError: true
         });
+    }
+
+    // define its working in case of failure
+    componentDidMount() {
+        window.gm_authFailure = this.gm_authFailure;
     }
 
     render() {
