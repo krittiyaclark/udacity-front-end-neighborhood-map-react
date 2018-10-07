@@ -5,7 +5,7 @@ const GoogleMapCall = withScriptjs(
     withGoogleMap(props => (
         <GoogleMap
             defaultZoom={18}
-            defaultCenter={{ lat: 36.372659, lng: -94.208742 }}
+            defaultCenter={{ lat: 40.712776, lng: -74.005974 }}
         >
             {props.children}
         </GoogleMap>

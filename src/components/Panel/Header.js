@@ -8,7 +8,7 @@ const Header = ({ toggleMenu, isOpen }) => {
                 {isOpen ? "X" : "="}
             </h1>
             <h1>Neighborhood Map</h1>
-            <h4>Place to eat in Amsterdam</h4>
+            <h4>Place to eat in New York City</h4>
         </React.Fragment>
     );
 };

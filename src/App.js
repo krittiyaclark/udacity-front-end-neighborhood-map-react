@@ -7,8 +7,8 @@ import Panel from "./components/Panel/MainContainer";
 class App extends Component {
   state = {
     centerPosition: {
-      lat: 52.370216,
-      lng: 4.895168
+      lat: 40.712776,
+      lng: -74.005974
     },
     venues: [],
     targetedVenue: {},
