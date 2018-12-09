@@ -1,6 +1,6 @@
 # Neighborhood Map
 
-This project creates map of restaurants in New York City neighborhood for the Front End Web Developer Nanodegree for Udacity.
+This project creates the map of restaurants in New York City neighborhood for the Front End Web Developer Nanodegree for Udacity.
 
 ## TL;DR
 
